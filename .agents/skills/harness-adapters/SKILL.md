@@ -21,6 +21,7 @@ Files under `references/` are resources of this skill, not additional catalogued
 The skill directory is the directory containing this `SKILL.md`.
 Resolve router targets and code-marked owner paths against the skill directory, including paths named by a nested reference.
 Resolve Markdown links against the Markdown file that contains them.
+`../../../bin/fm-harness-adapter-path-check.sh` validates code-marked owner paths under `references/`.
 Operational paths keep the context named by their owner: `config/` and active-home settings belong to the active Firstmate home, `state/` belongs to that home, and project settings such as `.claude/settings.json` belong to the target project.
 
 ## Non-negotiable safety
