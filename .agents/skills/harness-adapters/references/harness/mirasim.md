@@ -8,7 +8,7 @@ It is not a separate agent engine.
 
 | Fact | Value |
 |---|---|
-| Binary | `mirasim` from `PATH`, invoked as `mirasim claude`. |
+| Binary | `fm-spawn.sh` resolves `mirasim` to an absolute executable from Firstmate's `PATH` during preflight, then invokes that path as `<resolved-mirasim> claude`. |
 | Launch | The Claude launch template with `mirasim claude` replacing the bare `claude` executable. |
 | Busy | Claude `UserPromptSubmit`, `Stop`, `StopFailure`, and `SessionEnd` hooks write the existing `claude-hook` state. |
 | Exit | `/exit`. |

@@ -17,7 +17,7 @@ Run the portable adapter regression with:
 bin/fm-test-run.sh tests/fm-mirasim-harness.test.sh
 ```
 
-It proves the selectable route records `harness=mirasim`, preserves a bracketed model id as one shell-quoted argument, propagates effort and permission mode, installs Claude lifecycle hooks, trusts `claude-hook`, reuses Claude control mechanics, keeps relaunch identity, and refuses secondmate use.
+It proves the selectable route records `harness=mirasim`, launches the absolute Mirasim executable resolved during preflight, preserves a bracketed model id as one shell-quoted argument, propagates effort and permission mode, installs Claude lifecycle hooks, trusts `claude-hook`, reuses Claude control mechanics, and refuses secondmate use.
 
 Run the credentialed live guard with:
 
