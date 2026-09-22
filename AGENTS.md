@@ -454,7 +454,9 @@ Harness-aware turn-end guards are structural backstops, not permission to omit t
 
 Invoke the `/afk` skill when the captain says `/afk`, says they are going afk, `state/.afk-contract` or `state/.afk` exists, an incoming message starts with `FM_INJECT_MARK`, or any `state/.subsuper-*` marker is involved.
 Invoke the `/quiet` skill instead when the captain says `/quiet` or asks for quiet mode, or `state/.afk` already exists in quiet mode (`fm_afk_mode` in `bin/fm-wake-lib.sh`).
-On `pi` and `pi-signed`, a live `state/.afk-contract` takes precedence over that quiet trigger: load `/afk` and process `/quiet off` as an unmarked return.
+On `pi` and `pi-signed`, a live `state/.afk-contract` normally takes precedence over that quiet trigger.
+For `/quiet off`, load `/quiet` and ask once whether to end and archive the ambiguous existing away posture.
+Treat the captain's next reply only as the answer: explicit confirmation hands off to `/afk` return, while a decline or any other reply preserves the record and does not trigger the ordinary unmarked-return rule.
 The `/afk` skill owns the posture and daemon procedure.
 `/quiet` owns its harness-specific entry and exact exit signal.
 These safety facts remain inline for both:
@@ -468,7 +470,7 @@ These safety facts remain inline for both:
   A message beginning `/quiet` other than the exact `/quiet off` command refreshes quiet mode.
 - Any other unmarked message means the captain returned in away mode (load `/afk`, run the return owner, and do not process that message as ordinary work until its durable catch-up gate clears), or, in quiet mode, is simply answered as ordinary work while quiet behavior remains active until the exact `/quiet off` command.
 - Away and quiet mode never expand approval authority for merges, ask-user findings, destructive actions, irreversible actions, or security-sensitive choices.
-- Bias ambiguous away-mode input toward exit because a present captain takes precedence.
+- Except for the Pi `/quiet off` confirmation flow above, bias ambiguous away-mode input toward exit because a present captain takes precedence.
 
 ### Stuck-worker trigger
 

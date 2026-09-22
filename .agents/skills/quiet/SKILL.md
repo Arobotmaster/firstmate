@@ -39,7 +39,10 @@ Unlike `/afk`, ordinary chat is never the exit signal.
 
 - Only the exact `/quiet off` command exits quiet mode.
   On `pi` and `pi-signed`, first check for `state/.afk-contract`.
-  If the record exists, it is the away posture regardless of how it was created; process `/quiet off` as an unmarked return through [`afk` return](../afk/SKILL.md#how-to-exit-the-return) before acknowledging restored supervision.
+  If the record exists, its origin is ambiguous: it may be a legacy quiet record or a genuine away posture.
+  Ask once whether the captain wants to end and archive the current away posture, and treat the captain's next reply only as the answer to that question.
+  Follow [`afk` return](../afk/SKILL.md#how-to-exit-the-return) only after explicit confirmation.
+  A decline or any other reply preserves the record and its authority; do not process that reply as an ordinary afk return or acknowledge restored supervision.
   If no record exists, acknowledge restored normal supervision without running an afk command or changing a file.
   On every other harness, run `bin/fm-afk-return.sh` through the same procedure; it stops the daemon before archiving the confirmed posture record.
 - A marked daemon escalation stays in quiet mode and processes the message.
