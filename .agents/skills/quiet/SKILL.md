@@ -2,7 +2,9 @@
 name: quiet
 description: >-
   Enter quiet supervision mode when the captain invokes /quiet or asks for quiet mode, quiet-while-present, or fewer routine wake turns while they stay in the session.
-  Outside Pi it reuses the confirmed afk posture and keeps ordinary chat from ending that posture; only an explicit `/quiet off` does.
+  Outside `pi` and `pi-signed` it reuses the confirmed afk posture.
+  Ordinary chat does not end that posture.
+  Only the exact `/quiet off` command does.
 user-invocable: true
 metadata:
   internal: true
@@ -35,10 +37,11 @@ Quiet mode changes only the non-Pi flag mode and the exit signal.
 Unlike `/afk`, ordinary chat is never the exit signal.
 `AGENTS.md` section 8 owns this always-loaded distinction.
 
-- Only the exact explicit `/quiet off` signal exits quiet mode.
+- Only the exact `/quiet off` command exits quiet mode.
   On `pi` and `pi-signed`, acknowledge restored normal supervision without running an afk command or changing a file.
   On every other harness, run `bin/fm-afk-return.sh` through the procedure in [`afk` return](../afk/SKILL.md#how-to-exit-the-return); it stops the daemon before archiving the confirmed posture record.
-- A marked daemon escalation or any other message beginning with `/quiet` while quiet mode is active stays in quiet mode and processes the message.
+- A marked daemon escalation stays in quiet mode and processes the message.
+- Any message beginning with `/quiet` other than the exact `/quiet off` command refreshes quiet mode.
 - Every other message, including a plain request to resume normal supervision, receives an ordinary answer while quiet mode remains active.
 
 ## Orthogonal to approval authority
