@@ -244,7 +244,7 @@ Two checks keep the evidence boundaries separate.
 `bin/fm-harness-adapter-path-check.sh` validates code-marked owner paths in nested harness-adapter references.
 `tests/fm-harness-adapter-references.test.sh` checks valid and missing path behavior through that command, then parses the router's JSON contract and proves that every selected reference is readable.
 These checks provide structural evidence only.
-`tests/fm-harness-adapter-instructions-live-e2e.test.sh` is an opt-in development check that sends the directly loaded router and every operation scenario across all nine harness identities to a local Ollama model, requires the generated plan as normalized JSON, and makes no external-provider call.
+`tests/fm-harness-adapter-instructions-live-e2e.test.sh` is an opt-in development check that sends the directly loaded router and every operation scenario across its fixed nine-identity scenario set to a local Ollama model, requires the generated plan as normalized JSON, and makes no external-provider call.
 
 ```sh
 FM_HARNESS_ADAPTER_INSTRUCTION_EVAL=1 FM_HARNESS_ADAPTER_LOCAL_MODEL=ambient-router-gemma4:e4b bin/fm-test-run.sh tests/fm-harness-adapter-instructions-live-e2e.test.sh

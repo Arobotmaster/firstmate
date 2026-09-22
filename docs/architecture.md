@@ -479,4 +479,4 @@ Use `/stow` before an intentional reset when the conversation may hold durable k
 ## Development notes
 
 The current watcher reliability work combines always-on bash triage with a durable queue for actionable wakes, generation-bound post-handling acknowledgement, deterministic re-arm recovery after watcher downtime, a race-proof singleton lock, duplicate self-eviction, drain-time liveness assertion, and a self-verifying tracked-child arm wrapper.
-The away posture is the record `bin/fm-afk-contract.sh` owns; on the harnesses other than Pi the presence-gated sub-supervisor (`bin/fm-supervise-daemon.sh`) still provides walk-away delivery via the `/afk` skill while reusing the same shared wake classifier as the always-on watcher.
+The [event-driven supervision](#event-driven-supervision) section owns the away and quiet supervision shapes, including the Pi boundary and the non-Pi daemon.

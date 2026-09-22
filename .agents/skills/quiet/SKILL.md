@@ -53,4 +53,4 @@ A PR ready for merge keeps the merge authority from `AGENTS.md` section 7, and a
 
 The issue's author triage defines quiet mode as presentation only.
 Progress, retries, and internal mechanics do not surface, but review-ready work, findings, decisions, failures, and credentials always escalate through the classification policy that `/afk` owns.
-Quiet mode is opt-in and never the default; only an explicit `/quiet` invocation enters it.
+Quiet mode is opt-in and never the default; only an explicit request for quiet mode enters it.
