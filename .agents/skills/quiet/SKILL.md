@@ -38,8 +38,10 @@ Unlike `/afk`, ordinary chat is never the exit signal.
 `AGENTS.md` section 8 owns this always-loaded distinction.
 
 - Only the exact `/quiet off` command exits quiet mode.
-  On `pi` and `pi-signed`, acknowledge restored normal supervision without running an afk command or changing a file.
-  On every other harness, run `bin/fm-afk-return.sh` through the procedure in [`afk` return](../afk/SKILL.md#how-to-exit-the-return); it stops the daemon before archiving the confirmed posture record.
+  On `pi` and `pi-signed`, first check for `state/.afk-contract`.
+  If the record exists, it is the away posture regardless of how it was created; process `/quiet off` as an unmarked return through [`afk` return](../afk/SKILL.md#how-to-exit-the-return) before acknowledging restored supervision.
+  If no record exists, acknowledge restored normal supervision without running an afk command or changing a file.
+  On every other harness, run `bin/fm-afk-return.sh` through the same procedure; it stops the daemon before archiving the confirmed posture record.
 - A marked daemon escalation stays in quiet mode and processes the message.
 - Any message beginning with `/quiet` other than the exact `/quiet off` command refreshes quiet mode.
 - Every other message, including a plain request to resume normal supervision, receives an ordinary answer while quiet mode remains active.
