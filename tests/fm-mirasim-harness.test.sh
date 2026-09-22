@@ -20,7 +20,7 @@ run_hook() {  # <settings> <event>
 
 test_mirasim_launch_reuses_claude_adapter() {
   local case_dir home proj wt fakebin id out launch meta settings state
-  case_dir="$TMP_ROOT/launch"
+  case_dir="$TMP_ROOT/launch path"
   home="$case_dir/home"
   proj="$case_dir/project"
   wt="$case_dir/wt"
@@ -39,8 +39,8 @@ test_mirasim_launch_reuses_claude_adapter() {
   assert_contains "$out" "spawned $id harness=mirasim" "spawn lost the route identity"
 
   launch=$(cat "$case_dir/launch.log")
-  assert_contains "$launch" "mirasim claude --permission-mode auto" \
-    "spawn did not invoke the Mirasim Claude wrapper with the configured Claude permission posture"
+  assert_contains "$launch" "'$fakebin/mirasim' claude --permission-mode auto" \
+    "spawn did not invoke the resolved Mirasim wrapper with the configured Claude permission posture"
   assert_not_contains "$launch" "--dangerously-skip-permissions" \
     "Mirasim launch ignored the configured Claude permission posture"
   assert_contains "$launch" "--model 'claude-opus-5[1m]' --effort 'high'" \

@@ -293,6 +293,7 @@
 #     __CLAUDEPERMFLAG__ the claude permission flag selected by config/claude-permission-mode
 #     __PIBIN__    quoted concrete Pi-family executable path resolved from PATH
 #     __PITUIMODE__ optional --tui-mode regular when that executable advertises it
+#     __MIRASIMBIN__ quoted concrete Mirasim executable path resolved from PATH
 #     __TURNEND__  absolute path to state/<task-id>.turn-ended (for harnesses whose
 #                  turn-end signal rides the launch command, e.g. codex -c notify=[...])
 #     __PIEXT__    absolute path to state/<task-id>.pi-ext.ts (pi turn-end extension,
@@ -1728,7 +1729,7 @@ shell_quote() {
   printf "'"
 }
 
-resolve_pi_executable() {
+resolve_executable() {
   local candidate dir
   candidate=$(type -P -- "$1" 2>/dev/null) || return 1
   [ -x "$candidate" ] || return 1
@@ -1853,7 +1854,7 @@ launch_template() {
   # supervisor contract instead, so this task-worker statement does not apply.
   claude|mirasim)
     if [ "$harness" = mirasim ]; then
-      claude_launcher='mirasim claude'
+      claude_launcher='__MIRASIMBIN__ claude'
     else
       claude_launcher=claude
     fi
@@ -2138,14 +2139,16 @@ if [ "$KIND" = secondmate ] && [ "$HARNESS" = rovo ]; then
   exit 1
 fi
 
-if [ "$HARNESS" = mirasim ] && ! command -v mirasim >/dev/null 2>&1; then
-  echo "error: mirasim executable not found on PATH; install or select a different verified crewmate/scout harness" >&2
-  exit 1
+if [ "$HARNESS" = mirasim ]; then
+  MIRASIM_BIN=$(resolve_executable mirasim) || {
+    echo "error: mirasim executable not found on PATH; install or select a different verified crewmate/scout harness" >&2
+    exit 1
+  }
 fi
 
 case "$HARNESS" in
 pi | pi-signed)
-  PI_BIN=$(resolve_pi_executable "$HARNESS") || {
+  PI_BIN=$(resolve_executable "$HARNESS") || {
     echo "error: $HARNESS executable not found on PATH; install it or select a different verified harness" >&2
     exit 1
   }
@@ -2173,7 +2176,7 @@ cursor)
   fi
   ;;
 omp)
-  OMP_BIN=$(resolve_pi_executable omp) || {
+  OMP_BIN=$(resolve_executable omp) || {
     echo "error: omp executable not found on PATH; install Oh My Pi or select a different verified harness" >&2
     exit 1
   }
@@ -2184,7 +2187,7 @@ omp)
   }
   ;;
 agy)
-  AGY_BIN=$(resolve_pi_executable agy) || {
+  AGY_BIN=$(resolve_executable agy) || {
     echo "error: agy executable not found on PATH; install Antigravity CLI or select a different verified harness" >&2
     exit 1
   }
@@ -4637,6 +4640,7 @@ LAUNCH=${LAUNCH//__OMPEXT__/$sq_ompext}
 LAUNCH=${LAUNCH//__OMPWORKERCFG__/$sq_ompcfg}
 LAUNCH=${LAUNCH//__OPINPUT__/$sq_opinput}
 case "$HARNESS" in
+mirasim) LAUNCH=${LAUNCH//__MIRASIMBIN__/"$(shell_quote "$MIRASIM_BIN")"} ;;
 pi | pi-signed) LAUNCH=${LAUNCH//__PIBIN__/"$(shell_quote "$PI_BIN")"} ;;
 cursor) LAUNCH=${LAUNCH//__CURSORBIN__/"$(shell_quote "$CURSOR_BIN")"} ;;
 gemini) LAUNCH=${LAUNCH//__GEMINISETTINGS__/"$(shell_quote "$STATE_REAL/$ID.gemini-settings.json")"} ;;
