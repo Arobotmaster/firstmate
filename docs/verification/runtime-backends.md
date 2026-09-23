@@ -6,6 +6,11 @@ This record contains reusable version-scoped evidence for active runtime guarant
 The backend guides own current setup, safety boundaries, and limitations.
 Exact task chronology, branch names, temporary homes, local paths, process ids, thread ids, and delivery transcripts remain in private reports or PR evidence.
 
+## Mirasim
+
+The authenticated synthetic turn and Claude hook transitions were refreshed on 2026-09-23 with Mirasim 0.0.303 and Claude Code 2.1.278 on macOS arm64.
+[Mirasim verification](mirasim.md) owns the bounded live command, exact output, portable adapter coverage, and unverified interactive lifecycle boundary.
+
 ## Harness detection precedence
 
 Firstmate's own harness comes from two kinds of evidence, and `bin/fm-harness.sh` owns how they combine: an environment marker names its harness, and the nearest harness process in the parent chain proves who owns the process tree.

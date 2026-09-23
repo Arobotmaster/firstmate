@@ -426,7 +426,7 @@ fm_busy_lines_match() {  # [harness]
     regex=$FM_BUSY_REGEX
   else
     case "$harness" in
-      claude) regex=$FM_DELIVERY_CLAUDE_BUSY_REGEX_DEFAULT ;;
+      claude|mirasim) regex=$FM_DELIVERY_CLAUDE_BUSY_REGEX_DEFAULT ;;
       devin) regex=$FM_DELIVERY_DEVIN_BUSY_REGEX_DEFAULT ;;
       codex) regex=$FM_DELIVERY_CODEX_BUSY_REGEX_DEFAULT ;;
       opencode) regex=$FM_DELIVERY_OPENCODE_BUSY_REGEX_DEFAULT ;;
