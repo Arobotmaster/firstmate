@@ -2373,8 +2373,11 @@ require_exclusive_task_worktree_slot() {
 # Positive slot ownership, read from the claim the task that took the slot wrote
 # into the slot itself (bin/fm-wake-lib.sh owns the claim and its states).
 #
-# The record scan above proves that no OTHER task record names this slot. It
-# cannot prove that THIS record is not the stale one, because the task that took
+# The record scan above normally proves that no OTHER task record names this
+# slot. Its sole collision exception is the stale-record path described in the
+# script header; in that case, the owner claim below must classify this slot as
+# reassigned so every later slot step is skipped. With no collision, the scan
+# still cannot prove that THIS record is not stale, because the task that took
 # the slot next may leave no record this scan can reach: its own worker may have
 # exited and its record been cleaned up, or it may belong to a home this machine
 # does not register. The claim closes that gap from the other side - it names the
