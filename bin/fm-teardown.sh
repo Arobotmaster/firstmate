@@ -83,15 +83,17 @@
 # name a slot a DIFFERENT live task now holds. Cleanup kills every process under
 # that path and hard-resets it before returning it, so releasing a slot that is
 # not genuinely this task's destroys another worker's live work. Before the first
-# cleanup step, teardown verifies record exclusivity: no OTHER task record in
-# this home or any locally registered Firstmate home may name the same live path
-# in its worktree= or home=. One live path with two task records is the reuse
-# collision itself, whichever record is stale. When a single local collision
-# exists and the slot carries a positive claim for the other task in this home,
-# this record is recognized as a stale record whose slot was reassigned, provided
-# its recorded endpoint is confirmed dead; it is allowed to retire its own state
-# without touching the other task's slot, processes, copy, branch, or claim. The current
-# owner is allowed to return the slot only after stale-record reconciliation is safe.
+# cleanup step, teardown checks every other metadata file in this home and in
+# every locally registered Firstmate home. A file whose worktree= or home= names
+# the same live path is a collision, even when its task id matches this record's
+# id. By default, every collision refuses teardown.
+# One narrow path reconciles a stale record without returning the slot. Exactly
+# one other record must name the slot from the same home, the slot claim must
+# name that record and home, and this record's endpoint must be confirmed dead.
+# Active or unknown endpoint liveness refuses. When all checks pass, the stale
+# record can retire its own state without touching the current owner's slot,
+# processes, copy, branch, or claim. The current owner remains blocked until the
+# stale record has retired.
 # That scan alone cannot prove THIS record is the current owner, because the task
 # that took the slot next may leave no record it can reach - its own worker may
 # have exited and its record been cleaned up, or it may live in a home this
