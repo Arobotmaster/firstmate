@@ -89,8 +89,8 @@
 # collision itself, whichever record is stale. When a single local collision
 # exists and the slot carries a positive claim for the other task in this home,
 # this record is recognized as a stale record whose slot was reassigned, provided
-# its recorded endpoint is not active; it is allowed to retire its own state without
-# touching the other task's slot, processes, copy, branch, or claim. The current
+# its recorded endpoint is confirmed dead; it is allowed to retire its own state
+# without touching the other task's slot, processes, copy, branch, or claim. The current
 # owner is allowed to return the slot only after stale-record reconciliation is safe.
 # That scan alone cannot prove THIS record is the current owner, because the task
 # that took the slot next may leave no record it can reach - its own worker may
@@ -2304,21 +2304,19 @@ require_exclusive_worktree_slot_record() {
   for state_dir in "${TREEHOUSE_OWNER_STATES[@]}"; do
     for other in "$state_dir"/*.meta; do
       [ -f "$other" ] && [ ! -L "$other" ] || continue
+      [ "$other" -ef "$record_meta" ] && continue
       other_id=$(basename "$other" .meta)
-      [ "$other_id" != "$record_id" ] || continue
       for field in worktree home; do
         other_path=$(fm_meta_get "$other" "$field")
         [ -n "$other_path" ] || continue
         other_slot=$(canonical_existing_dir "$other_path") || continue
         if [ "$other_slot" = "$slot" ]; then
-          if [ -z "$colliding_other_id" ]; then
+          if [ "$colliding_count" -eq 0 ]; then
             colliding_other_id=$other_id
             colliding_other_state=$state_dir
             colliding_field=$field
-            colliding_count=1
-          elif [ "$colliding_other_id" != "$other_id" ]; then
-            colliding_count=$((colliding_count + 1))
           fi
+          colliding_count=$((colliding_count + 1))
           break
         fi
       done
@@ -2346,13 +2344,13 @@ require_exclusive_worktree_slot_record() {
         backend=$(fm_meta_get "$record_meta" backend)
         [ -n "$backend" ] || backend=tmux
         window=$(fm_meta_get "$record_meta" window)
-        if [ -n "$window" ] && [ "$(fm_backend_agent_alive "$backend" "$window")" = alive ]; then
-          echo "REFUSED: task $record_id's recorded worktree $slot is also task $colliding_other_id's recorded $colliding_field, and task $record_id's recorded endpoint is active; an active worker cannot be retired as a stale record. Nothing was changed - not even with --force." >&2
+        if [ -z "$window" ] || [ "$(fm_backend_agent_alive "$backend" "$window")" != dead ]; then
+          echo "REFUSED: task $record_id's recorded worktree $slot is also task $colliding_other_id's recorded $colliding_field, and task $record_id's recorded endpoint is active or its liveness is unknown; only a confirmed-dead worker can be retired as a stale record. Nothing was changed - not even with --force." >&2
           echo "Stop or reconcile task $record_id's worker first, then re-run teardown." >&2
           return 1
         fi
-        # Positively claimed by the other task in this home, with no active endpoint
-        # on this record: safe to retire as a stale record without touching the slot.
+        # Positively claimed by the other task in this home, with a confirmed-dead
+        # endpoint on this record: safe to retire without touching the slot.
         return 0
       fi
     fi
