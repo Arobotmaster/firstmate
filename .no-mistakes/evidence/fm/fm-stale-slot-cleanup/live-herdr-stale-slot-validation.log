@@ -1,0 +1,13 @@
+SCENARIO unknown liveness: PASS
+  live session: fm-lab-stale-slot-live-53297-26197 (herdr herdr 0.9.1)
+  real stale endpoint: fm-lab-stale-slot-live-53297-26197:w1:p1; registered status=idle; suspended pid=54788
+  product liveness verdict with unavailable process table: unknown
+  teardown exit: 1
+  refusal: ●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ ●  WATCHER DOWN - SUPERVISION IS OFF ●  2 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s). ●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair. ●  This is a supervision warning only; the guarded operation WILL still run. ●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/dajijix/.no-mistakes/worktrees/1d0ac733deef/01M3AA72HRK6AC7HY8QAE4S3SQ/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/dajijix/.no-mistakes/worktrees/1d0ac733deef/01M3AA72HRK6AC7HY8QAE4S3SQ/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded. ●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ REFUSED: task stale-mirasim's recorded worktree /private/var/folders/1d/x0xnwzls1ll7fn7pp48vq52w0000gn/T/fm-stale-slot-live.L0TbOg/pool/1/project is also task pi-fast-owner's recorded worktree, and task stale-mirasim's recorded endpoint is active or its liveness is unknown; only a confirmed-dead worker can be retired as a stale record. Nothing was changed - not even with --force. Stop or reconcile task stale-mirasim's worker first, then re-run teardown. 
+  no harm: both panes and Pi pid present; task records, owner claim, sentinel, and git status byte-identical
+SCENARIO current owner blocked: PASS
+  real owner endpoint: fm-lab-stale-slot-live-53297-26197:w1:p2
+  teardown exit: 1
+  refusal: WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode. REFUSED: task pi-fast-owner's recorded worktree /private/var/folders/1d/x0xnwzls1ll7fn7pp48vq52w0000gn/T/fm-stale-slot-live.L0TbOg/pool/1/project is also task stale-mirasim's recorded worktree. Returning that pool slot would kill stale-mirasim's processes and reset its copy, so nothing was changed - not even with --force. Reconcile whichever record is wrong (bin/fm-crew-state.sh pi-fast-owner; bin/fm-crew-state.sh stale-mirasim), then re-run teardown. 
+  no harm: both panes and Pi pid present; task records, owner claim, sentinel, and git status byte-identical
+LAB teardown: PASS; guarded helper verified the default-session tripwire unchanged

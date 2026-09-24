@@ -1,0 +1,43 @@
+LAB fm-lab-stale-slot-clean-31845-469
+SCENARIO active stale endpoint refuses without mutation
+command: fm-teardown.sh stale-active --force
+exit: 1
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  2 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/dajijix/.no-mistakes/worktrees/1d0ac733deef/01M3AA72HRK6AC7HY8QAE4S3SQ/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/dajijix/.no-mistakes/worktrees/1d0ac733deef/01M3AA72HRK6AC7HY8QAE4S3SQ/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+REFUSED: task stale-active's recorded worktree /private/var/folders/1d/x0xnwzls1ll7fn7pp48vq52w0000gn/T/fm-live-stale-slot.gBbspW/active/pool/1/project is also task current-owner's recorded worktree, and task stale-active's recorded endpoint is active or its liveness is unknown; only a confirmed-dead worker can be retired as a stale record. Nothing was changed - not even with --force.
+Stop or reconcile task stale-active's worker first, then re-run teardown.
+observable: both records, the owner claim, owner dirty file, owner pane, and live stale Pi pane remain
+SCENARIO confirmed-dead stale record retires without touching current owner
+command: fm-teardown.sh stale-mirasim --force
+exit: 0
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  2 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/dajijix/.no-mistakes/worktrees/1d0ac733deef/01M3AA72HRK6AC7HY8QAE4S3SQ/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/dajijix/.no-mistakes/worktrees/1d0ac733deef/01M3AA72HRK6AC7HY8QAE4S3SQ/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+warning: task stale-mirasim's recorded worktree /private/var/folders/1d/x0xnwzls1ll7fn7pp48vq52w0000gn/T/fm-live-stale-slot.gBbspW/dead/pool/1/project was reassigned to task pi-fast-owner (home /var/folders/1d/x0xnwzls1ll7fn7pp48vq52w0000gn/T//fm-live-stale-slot.gBbspW/dead/home), which claimed that pool slot after this record was written; that slot is no longer stale-mirasim's, so its processes, copy, and claim are left untouched and only stale-mirasim's own cleanup runs.
+teardown stale-mirasim complete (window fm-lab-stale-slot-clean-31845-469:w2:p2; pool slot /var/folders/1d/x0xnwzls1ll7fn7pp48vq52w0000gn/T//fm-live-stale-slot.gBbspW/dead/worktree left to task pi-fast-owner (home /var/folders/1d/x0xnwzls1ll7fn7pp48vq52w0000gn/T//fm-live-stale-slot.gBbspW/dead/home), which it was reassigned to)
+Backlog: stale-mirasim just finished (this home keeps no markdown backlog at /private/var/folders/1d/x0xnwzls1ll7fn7pp48vq52w0000gn/T/fm-live-stale-slot.gBbspW/dead/home/data/backlog.md). Update /private/var/folders/1d/x0xnwzls1ll7fn7pp48vq52w0000gn/T/fm-live-stale-slot.gBbspW/dead/home/data/backlog.md - move stale-mirasim to Done, keep Done to the 10 most recent, then re-scan Queued and dispatch only work whose blockers are gone and date is due.
+observable: stale metadata removed; owner metadata, claim, dirty file, and exact owner pane remain
+SCENARIO same task id in another registered home remains a collision
+command: fm-teardown.sh same-id --force
+exit: 1
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/dajijix/.no-mistakes/worktrees/1d0ac733deef/01M3AA72HRK6AC7HY8QAE4S3SQ/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/dajijix/.no-mistakes/worktrees/1d0ac733deef/01M3AA72HRK6AC7HY8QAE4S3SQ/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+REFUSED: task same-id's recorded worktree /private/var/folders/1d/x0xnwzls1ll7fn7pp48vq52w0000gn/T/fm-live-stale-slot.gBbspW/cross-home/pool/1/project is also task same-id's recorded worktree.
+Returning that pool slot would kill same-id's processes and reset its copy, so nothing was changed - not even with --force.
+Reconcile whichever record is wrong (bin/fm-crew-state.sh same-id; bin/fm-crew-state.sh same-id), then re-run teardown.
+observable: root and child same-id records, child claim, dirty file, and pane all remain
+RESULT all live stale-slot scenarios passed; lab teardown follows via trap
