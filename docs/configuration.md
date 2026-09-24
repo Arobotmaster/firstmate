@@ -399,6 +399,14 @@ Any other value, or an unreadable file, refuses every spawn from that home, whic
 The file is a captain-wide safety preference, so it is inherited into secondmate homes under the [`secondmate-provisioning`](../.agents/skills/secondmate-provisioning/SKILL.md) inherited-local-material contract; a secondmate's own Claude crewmates then launch on the same posture.
 The [Claude adapter reference](../.agents/skills/harness-adapters/references/harness/claude.md) records the verified shape of both launches and which once-per-machine dialog each one can meet.
 
+## Claude launcher (config/claude-launcher)
+
+The optional local, gitignored `config/claude-launcher` holds one token selecting the command-line launcher used for Claude worker invocations.
+The token is the file's whitespace-trimmed content.
+`claude` uses the standard `claude` CLI binary directly, and is also the default when the file is absent.
+`mirasim` prefixes the invocation with the resolved `mirasim` binary path, launching workers through `mirasim claude`.
+Mirasim is supported for crewmate and scout tasks only; persistent secondmates do not use `mirasim`.
+
 ## Worker account pin (config/claude-account, config/pi-account)
 
 A home that mixes accounts for one runner, such as a work login and a personal one, can pin the account its own Claude and Pi workers launch on.
