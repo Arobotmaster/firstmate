@@ -27,7 +27,7 @@ test_claude_launcher_mirasim() {
   home="$case_dir/home"
   proj="$case_dir/project"
   wt="$case_dir/wt"
-  id=launcher-crew
+  id="launcher-crew"
   fm_test_spawn_home "$home"
   printf 'mirasim\n' > "$home/config/claude-launcher"
   fm_git_worktree "$proj" "$wt" "$id"
@@ -37,7 +37,7 @@ test_claude_launcher_mirasim() {
     fm_test_run_spawn "$home" "$wt" "$fakebin" "$id" "$proj" \
       --harness claude --model 'claude-opus-5-5' --effort high \
       --mode local-only --yolo off)
-  expect_code 0 $? "Claude spawn with claude-launcher=mirasim should succeed: $out"
+  expect_code 0 "$?" "Claude spawn with claude-launcher=mirasim should succeed: $out"
   launch=$(cat "$case_dir/launch.log")
   assert_contains "$launch" "'$fakebin/mirasim' claude" \
     "claude-launcher=mirasim did not prefix Claude worker launch with mirasim binary"
@@ -61,7 +61,7 @@ test_claude_launcher_default() {
   home="$case_dir/home"
   proj="$case_dir/project"
   wt="$case_dir/wt"
-  id=default-crew
+  id="default-crew"
   fm_test_spawn_home "$home"
   fm_git_worktree "$proj" "$wt" "$id"
   fm_test_spawn_brief "$home" "$id"
@@ -70,7 +70,7 @@ test_claude_launcher_default() {
     fm_test_run_spawn "$home" "$wt" "$fakebin" "$id" "$proj" \
       --harness claude --model 'claude-opus-5-5' \
       --mode local-only --yolo off)
-  expect_code 0 $? "Claude spawn with absent claude-launcher should succeed: $out"
+  expect_code 0 "$?" "Claude spawn with absent claude-launcher should succeed: $out"
   launch=$(cat "$case_dir/launch.log")
   assert_not_contains "$launch" "mirasim" \
     "absent claude-launcher should not reference mirasim"
@@ -88,7 +88,7 @@ test_claude_launcher_explicit_claude() {
   home="$case_dir/home"
   proj="$case_dir/project"
   wt="$case_dir/wt"
-  id=explicit-crew
+  id="explicit-crew"
   fm_test_spawn_home "$home"
   printf 'claude\n' > "$home/config/claude-launcher"
   fm_git_worktree "$proj" "$wt" "$id"
@@ -98,7 +98,7 @@ test_claude_launcher_explicit_claude() {
     fm_test_run_spawn "$home" "$wt" "$fakebin" "$id" "$proj" \
       --harness claude --model 'claude-opus-5-5' \
       --mode local-only --yolo off)
-  expect_code 0 $? "Claude spawn with claude-launcher=claude should succeed: $out"
+  expect_code 0 "$?" "Claude spawn with claude-launcher=claude should succeed: $out"
   launch=$(cat "$case_dir/launch.log")
   assert_not_contains "$launch" "mirasim" \
     "explicit claude-launcher=claude should not reference mirasim"
@@ -114,7 +114,7 @@ test_claude_launcher_secondmate_exclusion() {
   home="$case_dir/home"
   wt="$case_dir/wt"
   sm_home="$case_dir/sm_home"
-  id=launcher-secondmate
+  id="launcher-secondmate"
   fm_test_spawn_home "$home"
   printf 'mirasim\n' > "$home/config/claude-launcher"
   mkdir -p "$sm_home/bin" "$sm_home/data"
@@ -125,7 +125,7 @@ test_claude_launcher_secondmate_exclusion() {
   out=$(FM_FAKE_LAUNCH_LOG="$case_dir/launch.log" \
     fm_test_run_spawn "$home" "$wt" "$fakebin" "$id" "$sm_home" \
       --secondmate --harness claude)
-  expect_code 0 $? "Claude secondmate spawn should succeed: $out"
+  expect_code 0 "$?" "Claude secondmate spawn should succeed: $out"
   launch=$(cat "$case_dir/launch.log")
   assert_not_contains "$launch" "$fakebin/mirasim" \
     "claude-launcher=mirasim must not apply to persistent secondmates"
@@ -143,7 +143,7 @@ test_claude_launcher_invalid() {
   home="$case_dir/home"
   proj="$case_dir/project"
   wt="$case_dir/wt"
-  id=launcher-invalid
+  id="launcher-invalid"
   fm_test_spawn_home "$home"
   printf 'unrecognized-launcher\n' > "$home/config/claude-launcher"
   fm_git_worktree "$proj" "$wt" "$id"
@@ -169,7 +169,7 @@ test_claude_launcher_missing_binary() {
   home="$case_dir/home"
   proj="$case_dir/project"
   wt="$case_dir/wt"
-  id=launcher-missing
+  id="launcher-missing"
   fm_test_spawn_home "$home"
   printf 'mirasim\n' > "$home/config/claude-launcher"
   fm_git_worktree "$proj" "$wt" "$id"
