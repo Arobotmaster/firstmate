@@ -1,0 +1,26 @@
+Scenario: bare EOF from real gh is retried once
+product_exit=0
+loopback_tls_connections=2
+stdout:
+contributions: observation unavailable for https://github.com/o/r/pull/8 - core read exited 1 with <N>s of budget left: Get "https://127.0.0.1:<port>/api/v3/repos/o/r/pulls/8": EOF
+persisted_error:
+forge observation unavailable: core read exited 1 with <N>s of budget left: Get "https://127.0.0.1:<port>/api/v3/repos/o/r/pulls/8": EOF
+
+Scenario: unrelated eof substring is not retried
+product_exit=0
+loopback_https_requests=1
+stdout:
+contributions: observation unavailable for https://github.com/o/r/pull/8 - core read exited 1 with <N>s of budget left: Get "https://127.0.0.1:<port>/api/v3/repos/o/r/pulls/8": net/http: HTTP/1.x transport connection broken: malformed HTTP status code "eof"
+persisted_error:
+forge observation unavailable: core read exited 1 with <N>s of budget left: Get "https://127.0.0.1:<port>/api/v3/repos/o/r/pulls/8": net/http: HTTP/1.x transport connection broken: malformed HTTP status code "eof"
+
+Scenario: one bare EOF from real gh recovers on retry
+product_exit=0
+loopback_connections=4 (one dropped before TLS, then three successful API reads)
+successful_request_paths:
+/repos/o/r/issues/9
+/repos/o/r/issues/9/comments?per_page=100
+/repos/o/r/issues/9/events?per_page=100
+stdout_bytes=0
+persisted_error=null
+persisted_state=open
